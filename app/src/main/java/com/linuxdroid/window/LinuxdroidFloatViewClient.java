@@ -1,4 +1,4 @@
-package com.termux.window;
+package com.linuxdroid.window;
 
 import android.content.Context;
 import android.media.AudioManager;
@@ -7,20 +7,20 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.inputmethod.InputMethodManager;
 
-import com.termux.terminal.KeyHandler;
-import com.termux.terminal.TerminalEmulator;
-import com.termux.terminal.TerminalSession;
-import com.termux.view.TerminalViewClient;
+import com.linuxdroid.terminal.KeyHandler;
+import com.linuxdroid.terminal.TerminalEmulator;
+import com.linuxdroid.terminal.TerminalSession;
+import com.linuxdroid.view.TerminalViewClient;
 
-public class TermuxFloatViewClient implements TerminalViewClient {
+public class LinuxdroidFloatViewClient implements TerminalViewClient {
 
-    private final TermuxFloatView view;
+    private final LinuxdroidFloatView view;
     /**
      * Keeping track of the special keys acting as Ctrl and Fn for the soft keyboard and other hardware keys.
      */
     boolean mVirtualControlKeyDown, mVirtualFnKeyDown;
 
-    public TermuxFloatViewClient(TermuxFloatView view) {
+    public LinuxdroidFloatViewClient(LinuxdroidFloatView view) {
         this.view = view;
     }
 
@@ -28,7 +28,7 @@ public class TermuxFloatViewClient implements TerminalViewClient {
     public float onScale(float scale) {
         if (scale < 0.9f || scale > 1.1f) {
             boolean increase = scale > 1.f;
-            ((TermuxFloatService) view.getContext()).changeFontSize(increase);
+            ((LinuxdroidFloatService) view.getContext()).changeFontSize(increase);
             return 1.0f;
         }
         return scale;

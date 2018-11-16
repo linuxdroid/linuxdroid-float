@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion '28.0.2'
     defaultConfig {
-        applicationId "com.termux.window"
+        applicationId "com.linuxdroid.window"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 12
@@ -29,7 +29,7 @@ android {
 
 dependencies {
     implementation 'com.android.support:support-annotations:28.0.0-rc02'
-    implementation 'com.termux:terminal-view:0.50'
+    implementation 'com.linuxdroid:terminal-view:0.50'
 
     testImplementation 'junit:junit:4.12'
 }

@@ -1,4 +1,4 @@
-package com.termux.window;
+package com.linuxdroid.window;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,12 +17,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.termux.terminal.EmulatorDebug;
-import com.termux.view.TerminalView;
+import com.linuxdroid.terminal.EmulatorDebug;
+import com.linuxdroid.view.TerminalView;
 
 import java.io.File;
 
-public class TermuxFloatView extends LinearLayout {
+public class LinuxdroidFloatView extends LinearLayout {
 
     public static final float ALPHA_FOCUS = 0.9f;
     public static final float ALPHA_NOT_FOCUS = 0.7f;
@@ -62,8 +62,8 @@ public class TermuxFloatView extends LinearLayout {
             layoutParams.height += heightChange;
             layoutParams.width = Math.max(MIN_SIZE, layoutParams.width);
             layoutParams.height = Math.max(MIN_SIZE, layoutParams.height);
-            mWindowManager.updateViewLayout(TermuxFloatView.this, layoutParams);
-            TermuxFloatPrefs.saveWindowSize(getContext(), layoutParams.width, layoutParams.height);
+            mWindowManager.updateViewLayout(LinuxdroidFloatView.this, layoutParams);
+            LinuxdroidFloatPrefs.saveWindowSize(getContext(), layoutParams.width, layoutParams.height);
             return true;
         }
 
@@ -73,7 +73,7 @@ public class TermuxFloatView extends LinearLayout {
         }
     });
 
-    public TermuxFloatView(Context context, AttributeSet attrs) {
+    public LinuxdroidFloatView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setAlpha(ALPHA_FOCUS);
     }
@@ -88,7 +88,7 @@ public class TermuxFloatView extends LinearLayout {
 
     public void initializeFloatingWindow() {
         mTerminalView = findViewById(R.id.terminal_view);
-        mTerminalView.setOnKeyListener(new TermuxFloatViewClient(this));
+        mTerminalView.setOnKeyListener(new LinuxdroidFloatViewClient(this));
     }
 
     @Override
@@ -105,7 +105,7 @@ public class TermuxFloatView extends LinearLayout {
 
     void checkForFont() {
         try {
-            @SuppressLint("SdCardPath") File fontFile = new File("/data/data/com.termux/files/home/.termux/font.ttf");
+            @SuppressLint("SdCardPath") File fontFile = new File("/data/data/com.linuxdroid/files/home/.linuxdroid/font.ttf");
             final Typeface newTypeface = (fontFile.exists() && fontFile.length() > 0) ? Typeface.createFromFile(fontFile) : Typeface.MONOSPACE;
             mTerminalView.setTypeface(newTypeface);
         } catch (Exception e) {
@@ -127,7 +127,7 @@ public class TermuxFloatView extends LinearLayout {
         layoutParams.format = PixelFormat.RGBA_8888;
 
         layoutParams.gravity = Gravity.TOP | Gravity.LEFT;
-        TermuxFloatPrefs.applySavedGeometry(getContext(), layoutParams);
+        LinuxdroidFloatPrefs.applySavedGeometry(getContext(), layoutParams);
 
         mWindowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         mWindowManager.addView(this, layoutParams);
@@ -191,8 +191,8 @@ public class TermuxFloatView extends LinearLayout {
                 case MotionEvent.ACTION_MOVE:
                     layoutParams.x = Math.min(DISPLAY_WIDTH - layoutParams.width, Math.max(0, initialX + (int) (event.getRawX() - initialTouchX)));
                     layoutParams.y = Math.min(DISPLAY_HEIGHT - layoutParams.height, Math.max(0, initialY + (int) (event.getRawY() - initialTouchY)));
-                    mWindowManager.updateViewLayout(TermuxFloatView.this, layoutParams);
-                    TermuxFloatPrefs.saveWindowPosition(getContext(), layoutParams.x, layoutParams.y);
+                    mWindowManager.updateViewLayout(LinuxdroidFloatView.this, layoutParams);
+                    LinuxdroidFloatPrefs.saveWindowPosition(getContext(), layoutParams.x, layoutParams.y);
                     break;
                 case MotionEvent.ACTION_UP:
                     updateLongPressMode(false);

@@ -1,11 +1,11 @@
-package com.termux.window;
+package com.linuxdroid.window;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.WindowManager;
 
-public class TermuxFloatPrefs {
+public class LinuxdroidFloatPrefs {
 
     private static final String PREF_X = "window_x";
     private static final String PREF_Y = "window_y";

@@ -1,4 +1,4 @@
-package com.termux.window;
+package com.linuxdroid.window;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -9,7 +9,7 @@ import android.provider.Settings;
 import android.view.View;
 
 @TargetApi(23)
-public class TermuxFloatPermissionActivity extends Activity {
+public class LinuxdroidFloatPermissionActivity extends Activity {
 
     public static int OVERLAY_PERMISSION_REQ_CODE = 1234;
 
@@ -27,7 +27,7 @@ public class TermuxFloatPermissionActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == OVERLAY_PERMISSION_REQ_CODE) {
-            startService(new Intent(this, TermuxFloatService.class));
+            startService(new Intent(this, LinuxdroidFloatService.class));
             finish();
         }
     }

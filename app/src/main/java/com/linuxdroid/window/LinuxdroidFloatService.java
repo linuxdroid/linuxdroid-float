@@ -1,4 +1,4 @@
-package com.termux.window;
+package com.linuxdroid.window;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -23,22 +23,22 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.termux.terminal.TerminalSession;
+import com.linuxdroid.terminal.TerminalSession;
 
 import java.io.File;
 
-public class TermuxFloatService extends Service {
+public class LinuxdroidFloatService extends Service {
 
-    private static final String NOTIFICATION_CHANNEL_ID = "termux_notification_channel";
+    private static final String NOTIFICATION_CHANNEL_ID = "linuxdroid_notification_channel";
 
-    public static final String ACTION_HIDE = "com.termux.float.hide";
-    public static final String ACTION_SHOW = "com.termux.float.show";
+    public static final String ACTION_HIDE = "com.linuxdroid.float.hide";
+    public static final String ACTION_SHOW = "com.linuxdroid.float.show";
 
     /**
      * Note that this is a symlink on the Android M preview.
      */
     @SuppressLint("SdCardPath")
-    public static final String FILES_PATH = "/data/data/com.termux/files";
+    public static final String FILES_PATH = "/data/data/com.linuxdroid/files";
     public static final String PREFIX_PATH = FILES_PATH + "/usr";
     public static final String HOME_PATH = FILES_PATH + "/home";
 
@@ -52,7 +52,7 @@ public class TermuxFloatService extends Service {
     private static final int MIN_FONTSIZE = 16;
     private static final int DEFAULT_FONTSIZE = 24;
     private static final String FONTSIZE_KEY = "fontsize";
-    private TermuxFloatView mFloatingWindow;
+    private LinuxdroidFloatView mFloatingWindow;
     private int mFontSize;
     private boolean mVisibleWindow = true;
 
@@ -73,7 +73,7 @@ public class TermuxFloatService extends Service {
             mFontSize = DEFAULT_FONTSIZE;
         }
 
-        TermuxFloatView floatingWindow = (TermuxFloatView) ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.activity_main, null);
+        LinuxdroidFloatView floatingWindow = (LinuxdroidFloatView) ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.activity_main, null);
         floatingWindow.initializeFloatingWindow();
         floatingWindow.mTerminalView.setTextSize(mFontSize);
 
@@ -85,7 +85,7 @@ public class TermuxFloatService extends Service {
         } catch (Exception e) {
             // Settings.canDrawOverlays() does not work (always returns false, perhaps due to sharedUserId?).
             // So instead we catch the exception and prompt here.
-            startActivity(new Intent(this, TermuxFloatPermissionActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            startActivity(new Intent(this, LinuxdroidFloatPermissionActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             stopSelf();
             return;
         }
@@ -103,8 +103,8 @@ public class TermuxFloatService extends Service {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setupNotificationChannel() {
-        String channelName = "Termux";
-        String channelDescription = "Notifications from Termux";
+        String channelName = "Linuxdroid";
+        String channelDescription = "Notifications from Linuxdroid";
         int importance = NotificationManager.IMPORTANCE_LOW;
 
         NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, importance);
@@ -119,7 +119,7 @@ public class TermuxFloatService extends Service {
         final String contentText = res.getString(mVisibleWindow ? R.string.notification_message_visible : R.string.notification_message_hidden);
 
         final String intentAction = mVisibleWindow ? ACTION_HIDE : ACTION_SHOW;
-        Intent actionIntent = new Intent(this, TermuxFloatService.class).setAction(intentAction);
+        Intent actionIntent = new Intent(this, LinuxdroidFloatService.class).setAction(intentAction);
 
         Notification.Builder builder = new Notification.Builder(this).setContentTitle(contentTitle).setContentText(contentText)
             .setPriority(Notification.PRIORITY_MIN).setSmallIcon(R.mipmap.ic_service_notification)
@@ -176,23 +176,23 @@ public class TermuxFloatService extends Service {
         mFloatingWindow.mTerminalView.setTextSize(mFontSize);
     }
 
-    // XXX: Keep in sync with TermuxService.java.
+    // XXX: Keep in sync with LinuxdroidService.java.
     @SuppressLint("SdCardPath")
     TerminalSession createTermSession() {
         new File(HOME_PATH).mkdirs();
 
         final String termEnv = "TERM=xterm-256color";
-        final String homeEnv = "HOME=" + TermuxFloatService.HOME_PATH;
-        final String prefixEnv = "PREFIX=" + TermuxFloatService.PREFIX_PATH;
+        final String homeEnv = "HOME=" + LinuxdroidFloatService.HOME_PATH;
+        final String prefixEnv = "PREFIX=" + LinuxdroidFloatService.PREFIX_PATH;
         final String androidRootEnv = "ANDROID_ROOT=" + System.getenv("ANDROID_ROOT");
         final String androidDataEnv = "ANDROID_DATA=" + System.getenv("ANDROID_DATA");
         // EXTERNAL_STORAGE is needed for /system/bin/am to work on at least
         // Samsung S7 - see https://plus.google.com/110070148244138185604/posts/gp8Lk3aCGp3.
         final String externalStorageEnv = "EXTERNAL_STORAGE=" + System.getenv("EXTERNAL_STORAGE");
         final String ps1Env = "PS1=$ ";
-        final String ldEnv = "LD_LIBRARY_PATH=" + TermuxFloatService.PREFIX_PATH + "/lib";
+        final String ldEnv = "LD_LIBRARY_PATH=" + LinuxdroidFloatService.PREFIX_PATH + "/lib";
         final String langEnv = "LANG=en_US.UTF-8";
-        final String pathEnv = "PATH=" + TermuxFloatService.PREFIX_PATH + "/bin:" + TermuxFloatService.PREFIX_PATH + "/bin/applets";
+        final String pathEnv = "PATH=" + LinuxdroidFloatService.PREFIX_PATH + "/bin:" + LinuxdroidFloatService.PREFIX_PATH + "/bin/applets";
         String[] env = new String[]{termEnv, homeEnv, prefixEnv, ps1Env, ldEnv, langEnv, pathEnv, androidRootEnv, androidDataEnv, externalStorageEnv};
 
         String executablePath = null;
